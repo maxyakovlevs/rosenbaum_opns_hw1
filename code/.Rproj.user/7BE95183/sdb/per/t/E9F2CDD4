@@ -1,0 +1,17 @@
+{
+    "contents" : "findBestLocation<-function(numSites, assemblers, competetors, unionRate, beta){\n  #Inputs:\n  #numSites is a scaler giving the number of supplier locations to find\n  #assemblers is a data.frame with x and y locations of the auto assemblers\n  #competetors is a data.frame with x and y locations of the domestic-owned suppliers, our competition\n  #unionRate is a function that takes x and y as arguments and outputs the fraction of workforce that works in a union\n  #beta is a data.frame with two elements, ``distance\" and ``union\". These are the linear cost parameters that determine how expensive it is for a given supplier to satesfy a given assembly plant\n  #Output: a list containing:\n  #(1) the minimum value\n  #(2) the convergence status of the optimizer\n  #(3) a data.frame containing the cost minimizing x and y values for the supplier locations\n    \n  C.bar<-function(assembly.loc, supplier.loc){\n    distance=sqrt(sum((assembly.loc-supplier.loc)^2))\n    unions=unionRate(supplier.loc$x, supplier.loc$y)\n    beta$distance*distance+beta$union*unions    \n  }\n  \n  expected.Nr<-function(assembly.loc, supplier.locs){\n    alply(supplier.locs, 1, function(s) -C.bar(assembly.loc, s)) %>%\n      unlist() %>%\n      exp() %>%\n      sum() %>%\n      log() %>%\n      prod(-1)\n  }\n  \n  #minimize the sum of the expected Nr\n  to.minimize<-function(supplier.loc.list){\n    supplier.locs=matrix(supplier.loc.list, nc=2) %>%\n      as.data.frame() %>%\n      select(x=V1, y=V2) %>%\n      rbind(as.matrix(competetors))\n    alply(assemblers, 1, function(s) expected.Nr(s, supplier.locs)) %>%\n      unlist() %>%\n      sum()\n  }\n  \n  #Try at several starting values in parallel, choose the one with the smallest value\n  num.tries=20\n  best.run=llply(seq(num.tries), function(l){\n    optim(runif(2*numSites), to.minimize, control=list(maxit=10000))\n  }, .parallel=T) %>%\n    ldply(function(l){\n      data.frame(val=l$value, convergence=l$convergence, par=rbind(l$par))\n    }) %>%\n    filter(rank(val, ties.method=\"first\")==1) \n  \n  list(\n    value=best.run$val,\n    convergence=best.run$convergence,\n    supplier.locs=select(best.run, -c(val, convergence)) %>%\n      matrix(nc=2) %>%\n      as.data.frame() %>%\n      select(x=V1, y=V2)\n  )  \n}",
+    "created" : 1412965477161.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2291022098",
+    "id" : "E9F2CDD4",
+    "lastKnownWriteTime" : 1412965773,
+    "path" : "~/Dropbox/teaching/OPNS523/labs/OPNS_Rosenbaum_lab/solution/code/modules/findBestLocation.R",
+    "project_path" : "modules/findBestLocation.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

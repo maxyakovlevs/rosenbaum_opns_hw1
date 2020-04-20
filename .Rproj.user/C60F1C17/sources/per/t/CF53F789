@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1587358022980.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3085056500",
+    "id" : "CF53F789",
+    "lastKnownWriteTime" : 1587401982,
+    "last_content_update" : 1587401982858,
+    "path" : "C:/Users/yakov/Downloads/structural estimation/OPNS_Rosenbaum2014/code/findBestLocation.R",
+    "project_path" : "code/findBestLocation.R",
+    "properties" : {
+        "cursorPosition" : "2,8",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 10,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

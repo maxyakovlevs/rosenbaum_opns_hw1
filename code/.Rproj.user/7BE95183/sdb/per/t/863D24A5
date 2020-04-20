@@ -1,0 +1,16 @@
+{
+    "contents" : "#Coding assignment based on the counterfactual analysis of Rosenbaum (2013):\n#Construct the findBestLocation() function, which identifies the optimal foreign-owned supplier locations, given the location of the domestic-owned suppliers. \n#Let the expected cost of a supplier satesfying an assembly plant be a linear function of the union rate and the distance between the supplier and assembly plant. beta gives these multiplicative constants.\n\nsource('header.R')\nmakeData()\nmy.vars<-load.variables()\nfindBestLocation(\n  numSites=6,\n  assemblers=my.vars$assemblers,\n  competetors=my.vars$competetors,\n  unionRate=my.vars$unionRate,\n  beta=my.vars$costParam\n) %>% easy.save('solution.txt')\n",
+    "created" : 1412965538263.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2021836532",
+    "id" : "863D24A5",
+    "lastKnownWriteTime" : 1412979272,
+    "path" : "~/Dropbox/teaching/OPNS523/labs/OPNS_Rosenbaum_lab/solution/code/m.R",
+    "project_path" : "m.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

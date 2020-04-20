@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "my.library <- '/Users/robertlbray/Dropbox/code/R/library'\n.libPaths(my.library)\nlibrary('tidyverse')\n\nc('reshape2', 'stringr', 'magrittr', 'plyr') %>%\n  walk(~library(., character.only=TRUE))\n\ndir('modules') %>% \n  walk(~source(paste('./modules/', ., sep=\"\")))\n\nvar_save <- '../variables/'\n",
+    "created" : 1506302074791.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "508491184",
+    "id" : "78B6ED7",
+    "lastKnownWriteTime" : 1506302079,
+    "last_content_update" : 1506302079349,
+    "path" : "~/github/teaching/OPNS523/OPNS_Rosenbaum/code/header.R",
+    "project_path" : "header.R",
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1587262751752.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2848810903",
+    "id" : "C6A2FA0B",
+    "lastKnownWriteTime" : 1587402050,
+    "last_content_update" : 1587402050475,
+    "path" : "C:/Users/yakov/Downloads/structural estimation/OPNS_Rosenbaum2014/code/header.R",
+    "project_path" : "code/header.R",
+    "properties" : {
+        "cursorPosition" : "13,0",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

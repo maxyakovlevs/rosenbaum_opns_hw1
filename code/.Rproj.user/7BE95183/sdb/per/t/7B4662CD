@@ -1,0 +1,16 @@
+{
+    "contents" : "makeData<-function(){\n  assembly.count<-12\n  competetor.count<-4\n  data.frame(\n    x=runif(assembly.count),\n    y=runif(assembly.count)\n  ) %>%\n    saveRDS(paste0(varSave, 'assembly.rds'))\n  data.frame(\n    x=runif(competetor.count),\n    y=runif(competetor.count)\n  ) %>%\n    saveRDS(paste0(varSave, 'competetor.rds'))\n  data.frame(\n    distance=10,\n    union=2\n  ) %>%\n    saveRDS(paste0(varSave, 'costParameters.rds'))\n  saveRDS(function(x, y) (x-1/2)^2+(y/4)^2, paste0(varSave, 'unionizationRate.rds'))\n}\n\nload.variables<-function(){\n  list(\n    assemblers = readRDS(paste0(varSave, 'assembly.rds')), \n    competetors = readRDS(paste0(varSave, 'competetor.rds')),\n    unionRate = readRDS(paste0(varSave, 'unionizationRate.rds')), \n    costParam = readRDS(paste0(varSave, 'costParameters.rds'))\n  )  \n}",
+    "created" : 1412965472581.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3082571290",
+    "id" : "7B4662CD",
+    "lastKnownWriteTime" : 1412357088,
+    "path" : "~/Dropbox/teaching/OPNS523/labs/OPNS_Rosenbaum_lab/solution/code/modules/getData.R",
+    "project_path" : "modules/getData.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

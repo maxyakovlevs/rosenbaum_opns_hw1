@@ -1,0 +1,76 @@
+#install.packages('plyr')
+#install.packages('dplyr')
+#install.packages('doParallel')
+library(plyr)
+library(dplyr)
+library(doParallel)
+
+nodes <- detectCores()
+cl <- makeCluster(nodes)
+registerDoParallel(cl)
+
+find_best_location <- function(num.sites, assemblers, competetors, union.rate.fn, beta, num.tries){
+
+  #estimating plant variable costs   
+      
+  cri_bar <- function(assemblers, suppliers){
+    euclidean_distance <- sum(sqrt((assemblers[1] - suppliers[1])^2 + (assemblers[2] - suppliers[2])^2))
+    union_rate <- union.rate.fn(suppliers[1], suppliers[2])
+    cri_bar <- beta[[1]] * euclidean_distance + beta[[2]] * union_rate
+    
+    return(cri_bar)
+  }
+  
+  # define cost function using Equation 14 and the structure on the expectation of N
+  E_N <- function(assemblers, suppliers){
+    lse <- t(data.frame("lse" = 1:nrow(suppliers)))
+    for (i in 1:nrow(suppliers)){
+      lse[i] <- -1*cri_bar(assemblers, suppliers[i,])
+    }
+    LSE <- (-1)*log(sum(exp(unlist(lse))))
+    
+    return(LSE)
+  }
+  
+  to_minimize <- function(suppliers){
+    suppliers_loc <- matrix(suppliers, nc = 2)
+    allsuppliers_loc <- rbind(suppliers_loc, as.matrix(competetors))
+    allsuppliers_loc
+    min <- t(data.frame("min" = 1:nrow(assemblers)))
+    for (row in 1:nrow(assemblers)){
+      min[row] <- E_N(assemblers[row,], allsuppliers_loc)
+    }
+    min_sum <- sum(min)
+    
+    return(min_sum)
+  }
+  
+  optimal_locations <- seq(num.tries) %>%
+    llply(function(l){
+      optim(
+        runif(2 * num.sites),
+        to_minimize,
+        control=list(maxit=10000)
+      )
+    },
+    .parallel = TRUE
+    )
+
+  values <- ldply(optimal_locations, function(l) data.frame(value = l$value, par = rbind(l$par)))
+  min_values <- filter(values, value == min(value))
+  values_selected <- select(min_values, -value)
+  optimal_locations1 <- matrix(values_selected, nc = 2)
+  optimal_locations1
+  return(optimal_locations1)
+}
+
+find_best_location(
+  num.sites = 6,
+  assemblers = readRDS('/home/myj9654/OPNS_Rosenbaum2014/variables/assembly.rds'),
+  competetors = readRDS('/home/myj9654/OPNS_Rosenbaum2014/variables/competetor.rds'),
+  union.rate.fn = readRDS('/home/myj9654/OPNS_Rosenbaum2014/variables/unionizationRate.rds'),
+  beta = readRDS('/home/myj9654/OPNS_Rosenbaum2014/variables/costParameters.rds'),
+  num.tries = 12
+) %>% 
+  saveRDS('/home/myj9654/OPNS_Rosenbaum2014/variables/solution1.rds')
+

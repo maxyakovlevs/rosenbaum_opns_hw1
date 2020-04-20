@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "make_data <- function(assembly.count, competetor.count, distance, union){\n  data_frame(\n    x = runif(assembly.count),\n    y = runif(assembly.count)\n  ) %>% \n    saveRDS(paste0(var_save, 'assembly.rds'))\n  \n  data_frame(\n    x = runif(competetor.count),\n    y = runif(competetor.count)\n  ) %>%\n    saveRDS(paste0(var_save, 'competetor.rds'))\n  \n  data.frame(\n    distance = distance,\n    union = union\n  ) %>%\n    saveRDS(paste0(var_save, 'costParameters.rds'))\n  \n  {function(x, y) (x-1/2)^2+(y/4)^2} %>% \n    saveRDS(paste0(var_save, 'unionizationRate.rds'))\n}",
+    "created" : 1506300375676.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2476580300",
+    "id" : "FD2F192D",
+    "lastKnownWriteTime" : 1506385130,
+    "last_content_update" : 1506385130522,
+    "path" : "~/github/teaching/OPNS523/OPNS_Rosenbaum/code/modules/getData.R",
+    "project_path" : "modules/getData.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

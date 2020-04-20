@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "find_best_location <- function(num.sites, assemblers, competetors, union.rate.fn, beta, num.tries){\n  #Inputs:\n  #num.sites is a scaler giving the number of supplier locations to find\n  #assemblers is a data.frame with x and y locations of the auto assemblers\n  #competetors is a data.frame with x and y locations of the domestic-owned suppliers, our competition\n  #union.rate.fn is a function that takes x and y as arguments and outputs the fraction of workforce that works in a union\n  #beta is a data.frame with two elements, ``distance\" and ``union\". These are the linear cost parameters that determine how expensive it is for a given supplier to satesfy a given assembly plant\n  #num.tries is an integer specifying the number of optimization searches I conduct\n  #Output: a list containing:\n  #(1) the minimum value\n  #(2) the convergence status of the optimizer\n  #(3) a data.frame containing the cost minimizing x and y values for the supplier locations\n  \n  ####Functions####\n  loc_list_to_df <- \n    function(supplier.loc.list){\n      as.data.frame(supplier.loc.list) %>% \n        rowid_to_column %>% \n        mutate(\n          coord = ifelse(rowid %% 2, 'x', 'y'),\n          rowid = (rowid - 1 - ((rowid - 1) %% 2))/2\n        ) %>% \n        dcast(\n          rowid ~ coord,\n          value.var = 'supplier.loc.list'\n        ) %>% \n        select(-rowid)\n    }\n  \n  C_bar <- \n    function(assembly.loc, supplier.loc){\n      list(\n        distance = sqrt(sum((assembly.loc - supplier.loc)^2)),\n        unions = union.rate.fn(supplier.loc$x, supplier.loc$y)\n      ) %>% {\n        beta$distance * .$distance + beta$union * .$unions    \n      }\n    }\n  \n  expected_Nr <- \n    function(assembly.loc, supplier.locs){\n      supplier.locs %>% \n        by_row(\n          ~{-C_bar(assembly.loc, .)},\n          .collate = 'cols'\n        ) %>% \n        summarise(-log(sum(exp(.out)))) %>% \n        as.numeric\n    }\n  \n  #minimize the sum of the expected Nr\n  to_minimize <- \n    function(supplier.loc.list){\n      supplier.locs <-\n        loc_list_to_df(supplier.loc.list)\n      \n      assemblers %>% \n        by_row(\n          ~expected_Nr(., supplier.locs),\n          .collate = 'cols'  \n        ) %>% \n        summarise(sum(.out)) %>% \n        as.numeric\n    }\n  \n  ####Analyis####\n  #Try at several starting values in parallel, choose the one with the smallest value\n  seq(num.tries) %>% \n    llply(\n      function(l){ \n        optim(\n          runif(2 * num.sites), \n          to_minimize, \n          control=list(maxit=10000)\n        )\n      }, \n      .parallel = TRUE\n    ) %>% \n    transpose %>% {\n      best.run <- \n        .$value %>% \n        unlist %>% {\n          . == min(.)\n        } %>% \n        which %>% {\n          .[1]\n        }\n      \n      .$par[best.run] %>% \n        unlist %>% \n        loc_list_to_df\n    }\n}",
+    "created" : 1506268489571.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3424583417",
+    "id" : "FCC20DB7",
+    "lastKnownWriteTime" : 1506304340,
+    "last_content_update" : 1506304340,
+    "path" : "~/Dropbox/teaching/OPNS523/assignments/OPNS_Rosenbaum_lab/solution/code/modules/findBestLocation.R",
+    "project_path" : "modules/findBestLocation.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#Coding assignment based on the counterfactual analysis of Rosenbaum (2013):\n#Construct the findBestLocation() function, which identifies the optimal foreign-owned supplier locations, given the location of the domestic-owned suppliers. \n#Let the expected cost of a supplier satesfying an assembly plant be a linear function of the union rate and the distance between the supplier and assembly plant. beta gives these multiplicative constants.\n\nsource('header.R')\n\nmake_data(\n  assembly.count = 12,\n  competetor.count = 4,\n  distance = 10,\n  union = 2\n)\n\nfind_best_location(\n  num.sites = 6,\n  assemblers = readRDS(paste0(var_save, 'assembly.rds')),\n  competetors = readRDS(paste0(var_save, 'competetor.rds')),\n  union.rate.fn = readRDS(paste0(var_save, 'unionizationRate.rds')),\n  beta = readRDS(paste0(var_save, 'costParameters.rds')),\n  num.tries = 12\n) %>% \n  saveRDS(paste0(var_save, 'solution.rds'))\n",
+    "created" : 1506304346294.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1504698962",
+    "id" : "ADC6C3CA",
+    "lastKnownWriteTime" : 1506304338,
+    "last_content_update" : 1506304338,
+    "path" : "~/github/teaching/OPNS523/OPNS_Rosenbaum/code/m.R",
+    "project_path" : "m.R",
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,16 @@
+{
+    "contents" : "varSave<-'../variables/'\nex.mods<-'modules/'\n# .libPaths('/Users/robertbray/Dropbox/code/R/library/')\nlibrary('dplyr')\nlibrary('plyr')\nlibrary('doParallel')\nregisterDoParallel(cores=20)\nl_ply(dir(ex.mods), function(l) source(paste(ex.mods, l, sep=\"\")))\n",
+    "created" : 1412965580844.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3903514404",
+    "id" : "A5E42A46",
+    "lastKnownWriteTime" : 1412965827,
+    "path" : "~/Dropbox/teaching/OPNS523/labs/OPNS_Rosenbaum_lab/solution/code/header.R",
+    "project_path" : "header.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
